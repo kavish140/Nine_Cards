@@ -33,6 +33,16 @@
           </div>
 
           <label class="input-label" for="cardsInput">9-card hand</label>
+
+          <div class="picker-wrap" aria-label="Card picker">
+            <div class="picker-header">
+              <span>Select cards from deck</span>
+              <small>Pick up to 9 cards</small>
+            </div>
+            <div id="deckGrid" class="deck-grid"></div>
+            <div id="selectedCards" class="selected-cards" aria-live="polite"></div>
+          </div>
+
           <textarea
             id="cardsInput"
             class="cards-input"

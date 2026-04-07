@@ -161,6 +161,79 @@ h1 {
   color: #dce6ff;
 }
 
+.picker-wrap {
+  margin-bottom: 0.85rem;
+  padding: 0.85rem;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.picker-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.6rem;
+  margin-bottom: 0.55rem;
+}
+
+.picker-header span {
+  font-weight: 700;
+  color: #e8efff;
+}
+
+.picker-header small {
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.deck-grid {
+  display: grid;
+  grid-template-columns: repeat(13, minmax(0, 1fr));
+  gap: 0.35rem;
+}
+
+.card-chip {
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(9, 13, 26, 0.9);
+  color: #edf4ff;
+  border-radius: 10px;
+  padding: 0.33rem 0.2rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.card-chip:hover {
+  border-color: rgba(79, 214, 255, 0.55);
+}
+
+.card-chip.is-selected {
+  background: linear-gradient(135deg, rgba(126, 224, 195, 0.35), rgba(79, 214, 255, 0.33));
+  border-color: rgba(126, 224, 195, 0.8);
+  color: #03201f;
+}
+
+.selected-cards {
+  margin-top: 0.7rem;
+  min-height: 1.25rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.selected-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.26rem 0.5rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  border: 1px solid rgba(126, 224, 195, 0.5);
+  background: rgba(126, 224, 195, 0.14);
+  color: #cbfff0;
+  font-weight: 700;
+}
+
 .cards-input {
   width: 100%;
   resize: vertical;
@@ -332,6 +405,10 @@ h1 {
     grid-template-columns: 1fr;
   }
 
+  .deck-grid {
+    grid-template-columns: repeat(9, minmax(0, 1fr));
+  }
+
   h1 {
     max-width: 14ch;
   }
@@ -354,5 +431,9 @@ h1 {
 
   .results-table {
     min-width: 460px;
+  }
+
+  .deck-grid {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
   }
 }

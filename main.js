@@ -89,8 +89,11 @@ const resetBtn = document.getElementById("resetBtn");
 const statusBox = document.getElementById("statusBox");
 const summaryCard = document.getElementById("summaryCard");
 const resultsBody = document.getElementById("resultsBody");
+const deckGrid = document.getElementById("deckGrid");
+const selectedCardsBox = document.getElementById("selectedCards");
 
 const categoryPermutations = [...permutations(["c", "s", "j", "p"])];
+const selectedCards = [];
 
 function setStatus(message, kind = "") {
   statusBox.className = `status-box ${kind}`.trim();
@@ -101,6 +104,66 @@ function clearResults() {
   summaryCard.className = "summary-card empty-state";
   summaryCard.textContent = "Enter 9 cards and run the solver to see the result.";
   resultsBody.innerHTML = '<tr class="empty-row"><td colspan="2">No analysis yet.</td></tr>';
+}
+
+function syncInputFromSelection() {
+  cardsInput.value = selectedCards.join(" ");
+}
+
+function renderSelectedCards() {
+  if (selectedCards.length === 0) {
+    selectedCardsBox.textContent = "No cards selected.";
+    return;
+  }
+  selectedCardsBox.innerHTML = selectedCards
+    .map((card) => `<span class="selected-pill">${card}</span>`)
+    .join("");
+}
+
+function setCardButtonState(cardText, isSelected) {
+  const button = deckGrid.querySelector(`[data-card="${cardText}"]`);
+  if (!button) return;
+  button.classList.toggle("is-selected", isSelected);
+  button.setAttribute("aria-pressed", String(isSelected));
+}
+
+function toggleCardSelection(cardText) {
+  const currentIndex = selectedCards.indexOf(cardText);
+  if (currentIndex >= 0) {
+    selectedCards.splice(currentIndex, 1);
+    setCardButtonState(cardText, false);
+  } else {
+    if (selectedCards.length >= 9) {
+      setStatus("You can select at most 9 cards.", "error");
+      return;
+    }
+    selectedCards.push(cardText);
+    setCardButtonState(cardText, true);
+  }
+
+  renderSelectedCards();
+  syncInputFromSelection();
+}
+
+function initDeckPicker() {
+  const suitOrder = ["S", "H", "D", "C"];
+  deckGrid.innerHTML = "";
+
+  for (const suit of suitOrder) {
+    for (const rank of RANKS) {
+      const cardText = `${rank}${suit}`;
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "card-chip";
+      button.textContent = cardText;
+      button.dataset.card = cardText;
+      button.setAttribute("aria-pressed", "false");
+      button.addEventListener("click", () => toggleCardSelection(cardText));
+      deckGrid.appendChild(button);
+    }
+  }
+
+  renderSelectedCards();
 }
 
 function renderResults({ validSolutions, winnerCard, steps, candidates }) {
@@ -199,9 +262,16 @@ function analyzeHand() {
 }
 
 function resetForm() {
+  selectedCards.splice(0, selectedCards.length);
+  for (const chip of deckGrid.querySelectorAll(".card-chip")) {
+    chip.classList.remove("is-selected");
+    chip.setAttribute("aria-pressed", "false");
+  }
+
   cardsInput.value = "";
   setStatus("", "");
   clearResults();
+  renderSelectedCards();
   cardsInput.focus();
 }
 
@@ -213,4 +283,5 @@ cardsInput.addEventListener("keydown", (event) => {
   }
 });
 
+initDeckPicker();
 clearResults();
