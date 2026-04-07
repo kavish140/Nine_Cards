@@ -41,7 +41,12 @@ function check(card1, card2, category) {
   if (category === "c") return p1.suit === p2.suit;
   if (category === "p") return p1.rank === p2.rank;
   if (category === "s") return Math.abs(v1 - v2) === 1 || Math.abs(v1 - v2) === 12;
-  if (category === "j") return Math.abs(v1 - v2) === 2 || Math.abs(v1 - v2) === 11;
+  if (category === "j") {
+    const diff = Math.abs(v1 - v2);
+    if (diff === 2) return true;
+    const isAQ = (p1.rank === "A" && p2.rank === "Q") || (p1.rank === "Q" && p2.rank === "A");
+    if (isAQ) return true;
+  }
   return false;
 }
 
@@ -223,6 +228,7 @@ function renderResults({ validSolutions, winnerCard, steps, candidates }) {
 }
 
 function analyzeHand() {
+  const startTime = performance.now();
   const tokens = cardsInput.value.replace(/,/g, " ").split(/\s+/).filter(Boolean);
   const userCards = [];
   const skipped = [];
@@ -241,7 +247,7 @@ function analyzeHand() {
   if (skipped.length > 0) {
     setStatus(`Skipping invalid token${skipped.length > 1 ? "s" : ""}: ${skipped.join(", ")}`, "error");
   } else {
-    setStatus("Analyzing all possible winners and category orders...", "");
+    setStatus("Analyzing all 216 combinations (9 winners x 24 category orders)...", "");
   }
 
   if (userCards.length < 9) {
@@ -268,9 +274,11 @@ function analyzeHand() {
   }
 
   if (validSolutions.length === 0) {
+    const elapsed = ((performance.now() - startTime) / 1000).toFixed(4);
     summaryCard.className = "summary-card";
     summaryCard.textContent = "No valid combinations found.";
     resultsBody.innerHTML = '<tr class="empty-row"><td colspan="2">No valid combinations found.</td></tr>';
+    setStatus(`No valid combinations found. Analysis complete in ${elapsed} seconds.`, "error");
     return;
   }
 
@@ -283,7 +291,8 @@ function analyzeHand() {
   }, null);
 
   const [winnerCard, steps] = bestSol;
-  setStatus(`Found ${validSolutions.length} valid leftover${validSolutions.length > 1 ? "s" : ""}.`, "success");
+  const elapsed = ((performance.now() - startTime) / 1000).toFixed(4);
+  setStatus(`Found ${validSolutions.length} valid leftover${validSolutions.length > 1 ? "s" : ""}. Analysis complete in ${elapsed} seconds.`, "success");
   renderResults({ validSolutions, winnerCard, steps, candidates });
 }
 
