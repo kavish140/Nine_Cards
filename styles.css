@@ -1,0 +1,358 @@
+:root {
+  color-scheme: dark;
+  --bg: #0b1020;
+  --bg-soft: rgba(14, 20, 41, 0.86);
+  --panel: rgba(10, 16, 34, 0.8);
+  --panel-border: rgba(255, 255, 255, 0.1);
+  --text: #f4f7fb;
+  --muted: #a8b2cc;
+  --accent: #7ee0c3;
+  --accent-strong: #4fd6ff;
+  --warn: #ffd36f;
+  --danger: #ff8b8b;
+  --shadow: 0 28px 80px rgba(0, 0, 0, 0.4);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Inter", system-ui, sans-serif;
+  color: var(--text);
+  background:
+    radial-gradient(circle at top left, rgba(79, 214, 255, 0.18), transparent 34%),
+    radial-gradient(circle at top right, rgba(126, 224, 195, 0.12), transparent 28%),
+    linear-gradient(160deg, #070b16 0%, #0b1020 45%, #10172c 100%);
+}
+
+button,
+textarea {
+  font: inherit;
+}
+
+code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+.backdrop {
+  position: fixed;
+  inset: auto;
+  pointer-events: none;
+  border-radius: 999px;
+  filter: blur(18px);
+  opacity: 0.9;
+}
+
+.backdrop-one {
+  width: 26rem;
+  height: 26rem;
+  background: rgba(79, 214, 255, 0.12);
+  top: -7rem;
+  left: -5rem;
+}
+
+.backdrop-two {
+  width: 24rem;
+  height: 24rem;
+  background: rgba(126, 224, 195, 0.1);
+  bottom: -8rem;
+  right: -6rem;
+}
+
+.shell {
+  width: min(1180px, calc(100% - 2rem));
+  margin: 0 auto;
+  padding: 3rem 0 3.5rem;
+  position: relative;
+}
+
+.hero {
+  display: grid;
+  gap: 0.85rem;
+  margin-bottom: 1.5rem;
+  max-width: 760px;
+}
+
+.eyebrow {
+  margin: 0;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  font-size: 0.76rem;
+  font-weight: 700;
+}
+
+h1,
+h2 {
+  margin: 0;
+  font-family: "Fraunces", Georgia, serif;
+  letter-spacing: -0.03em;
+}
+
+h1 {
+  font-size: clamp(2.6rem, 5vw, 5rem);
+  line-height: 0.95;
+  max-width: 11ch;
+}
+
+.lede,
+.panel-header p,
+.help-row,
+.summary-card,
+.status-box {
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.lede {
+  margin: 0;
+  max-width: 62ch;
+  font-size: 1.02rem;
+}
+
+.workspace {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1.2fr);
+  gap: 1.2rem;
+}
+
+.panel {
+  border: 1px solid var(--panel-border);
+  border-radius: 24px;
+  background: linear-gradient(180deg, rgba(12, 17, 34, 0.96), rgba(10, 14, 27, 0.88));
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(18px);
+}
+
+.input-panel,
+.output-panel {
+  padding: 1.3rem;
+}
+
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.panel-header h2 {
+  font-size: 1.6rem;
+  margin-bottom: 0.3rem;
+}
+
+.panel-header p {
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.input-label {
+  display: block;
+  margin: 0.5rem 0 0.5rem;
+  font-weight: 700;
+  color: #dce6ff;
+}
+
+.cards-input {
+  width: 100%;
+  resize: vertical;
+  min-height: 130px;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(4, 8, 18, 0.75);
+  color: var(--text);
+  padding: 1rem 1.05rem;
+  outline: none;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+}
+
+.cards-input:focus {
+  border-color: rgba(79, 214, 255, 0.6);
+  box-shadow: 0 0 0 4px rgba(79, 214, 255, 0.12);
+}
+
+.help-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  align-items: center;
+  margin-top: 0.8rem;
+  font-size: 0.92rem;
+}
+
+.help-row span {
+  color: #dce6ff;
+  font-weight: 600;
+}
+
+.button-row {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.primary-button,
+.ghost-button {
+  border: 0;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: transform 0.16s ease, box-shadow 0.16s ease, background 0.16s ease, border-color 0.16s ease;
+}
+
+.primary-button {
+  padding: 0.88rem 1.2rem;
+  color: #051018;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-strong) 100%);
+  box-shadow: 0 18px 36px rgba(79, 214, 255, 0.25);
+}
+
+.ghost-button {
+  padding: 0.78rem 1rem;
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.primary-button:hover,
+.ghost-button:hover {
+  transform: translateY(-1px);
+}
+
+.primary-button:active,
+.ghost-button:active {
+  transform: translateY(0);
+}
+
+.status-box {
+  min-height: 1.2rem;
+  margin-top: 0.95rem;
+  font-size: 0.95rem;
+}
+
+.status-box.error {
+  color: var(--danger);
+}
+
+.status-box.success {
+  color: #91f0cc;
+}
+
+.summary-card {
+  padding: 1rem 1.05rem;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.03);
+  margin-bottom: 1rem;
+}
+
+.summary-card.empty-state {
+  color: var(--muted);
+}
+
+.summary-grid {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.summary-grid strong {
+  color: var(--text);
+}
+
+.table-wrap {
+  overflow: auto;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.results-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 520px;
+  background: rgba(5, 8, 18, 0.6);
+}
+
+.results-table th,
+.results-table td {
+  text-align: left;
+  padding: 0.95rem 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  vertical-align: top;
+}
+
+.results-table th {
+  font-size: 0.78rem;
+  letter-spacing: 0.14em;
+  color: var(--muted);
+  text-transform: uppercase;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.results-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.empty-row td {
+  color: var(--muted);
+}
+
+.step-line {
+  display: flex;
+  gap: 0.7rem;
+  align-items: baseline;
+}
+
+.step-label {
+  color: var(--accent);
+  min-width: 7.6rem;
+}
+
+.winner-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.25rem;
+  padding: 0.35rem 0.7rem;
+  border-radius: 999px;
+  background: rgba(126, 224, 195, 0.12);
+  color: #c9ffee;
+  font-weight: 700;
+}
+
+@media (max-width: 980px) {
+  .workspace {
+    grid-template-columns: 1fr;
+  }
+
+  h1 {
+    max-width: 14ch;
+  }
+}
+
+@media (max-width: 640px) {
+  .shell {
+    width: min(100% - 1rem, 1180px);
+    padding: 1rem 0 1.5rem;
+  }
+
+  .input-panel,
+  .output-panel {
+    padding: 1rem;
+  }
+
+  .panel-header {
+    flex-direction: column;
+  }
+
+  .results-table {
+    min-width: 460px;
+  }
+}
