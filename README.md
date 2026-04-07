@@ -16,12 +16,12 @@ Open `index.html` in a browser, or serve the folder with any static server.
 
 ## Deploy to GitHub Pages
 
-This repo is already structured for GitHub Pages because the app is static and uses relative paths.
+This repo deploys a static `gh-pages` branch with GitHub Actions.
 
 1. Push the repository to GitHub.
-2. In repository settings, enable GitHub Pages using GitHub Actions.
+2. In repository settings, set GitHub Pages source to the `gh-pages` branch and `/ (root)`.
 3. Commit and push to `main`.
-4. The workflow in `.github/workflows/deploy.yml` will publish the site.
+4. The workflow in `.github/workflows/deploy.yml` will publish the site automatically.
 
 ## Input format
 
