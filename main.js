@@ -2,6 +2,7 @@ const RANKS = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"]
 const SUITS = ["C", "D", "H", "S"];
 const RANK_ALIASES = {"2": "2", "3": "3", "4": "4", "5": "5", "6": "6", "7": "7", "8": "8", "9": "9", "10": "10", "T": "10", "J": "J", "Q": "Q", "K": "K", "A": "A"};
 const SUIT_ALIASES = {"C": "C", "D": "D", "H": "H", "S": "S"};
+const SUIT_SYMBOLS = {"S": "♠", "H": "♥", "D": "♦", "C": "♣"};
 
 function createCard(rank, suit) {
   return { rank, suit };
@@ -110,13 +111,37 @@ function syncInputFromSelection() {
   cardsInput.value = selectedCards.join(" ");
 }
 
+function getSuitClass(suit) {
+  return suit === "H" || suit === "D" ? "red" : "black";
+}
+
+function cardTokenToParts(cardText) {
+  return {
+    rank: cardText.slice(0, -1),
+    suit: cardText.slice(-1)
+  };
+}
+
+function buildCardFaceHtml(cardText, sizeClass = "") {
+  const { rank, suit } = cardTokenToParts(cardText);
+  const colorClass = getSuitClass(suit);
+  const suitSymbol = SUIT_SYMBOLS[suit];
+  return `
+    <span class="card-face ${sizeClass} ${colorClass}">
+      <span class="card-face-corner">${rank}<b>${suitSymbol}</b></span>
+      <span class="card-face-center">${suitSymbol}</span>
+      <span class="card-face-corner invert">${rank}<b>${suitSymbol}</b></span>
+    </span>
+  `;
+}
+
 function renderSelectedCards() {
   if (selectedCards.length === 0) {
     selectedCardsBox.textContent = "No cards selected.";
     return;
   }
   selectedCardsBox.innerHTML = selectedCards
-    .map((card) => `<span class="selected-pill">${card}</span>`)
+    .map((card) => `<span class="selected-pill">${buildCardFaceHtml(card, "mini")}</span>`)
     .join("");
 }
 
@@ -155,8 +180,9 @@ function initDeckPicker() {
       const button = document.createElement("button");
       button.type = "button";
       button.className = "card-chip";
-      button.textContent = cardText;
+      button.innerHTML = buildCardFaceHtml(cardText);
       button.dataset.card = cardText;
+      button.title = cardText;
       button.setAttribute("aria-pressed", "false");
       button.addEventListener("click", () => toggleCardSelection(cardText));
       deckGrid.appendChild(button);
